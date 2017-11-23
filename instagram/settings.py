@@ -128,7 +128,7 @@ MAX_NODE_PUBLISHER_INIT = 20
 MAX_NODE_HASHTAG_INIT = 20
 LATEST_ONLY = True
 REQUEST_META = {
-    "proxy": "127.0.0.1:1080"
+    "proxy": "http://192.168.64.1:1080"
 }
 
 # URLs
