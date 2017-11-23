@@ -6,12 +6,12 @@ from celery.utils.log import get_task_logger
 from pymongo import MongoClient
 import redis
 
-import settings
+from task import settings
 
 REDIS_UPDATING_KEY = 'updating'
 REDIS_LATEST_UPDATE_KEY = 'latest_update'
 
-app = Celery('instagram_poller')
+app = Celery('instagram')
 app.config_from_object('task.config')
 
 logger = get_task_logger(__name__)
@@ -22,8 +22,8 @@ redis_pool = redis.ConnectionPool(
     db=settings.REDIS_DB
 )
 
-@app.task(name='poll_publisher')
-def poll_publisher():
+@app.task(name='poll_instagram', bind=True)
+def poll_instagram(self):
     redis_cli = redis.StrictRedis(connection_pool=redis_pool)
     latest_update = redis_cli.zrange(
         REDIS_LATEST_UPDATE_KEY,
