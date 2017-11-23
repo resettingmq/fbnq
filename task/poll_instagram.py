@@ -36,11 +36,12 @@ def poll_instagram(self):
             REDIS_UPDATING_KEY,
             t
         )
+        t = t.decode('utf8')
         if not is_updating:
-            logger.info('%s is not updating. Begin polling web for it.')
+            logger.info('%s is not updating. Begin polling web for it.', t)
             target = t
             break
-        logger.info('%s is updating. Checking next.')
+        logger.info('%s is updating. Checking next.', t)
 
     if target is None:
         logger.info('No target found. EXIT polling.')
