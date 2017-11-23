@@ -391,7 +391,7 @@ class BaseInstagramSpider(Spider):
         self._update_db_status()
         self.mongo_cli.close()
         self.logger.info('Scaped %s nodes.', self.scraped)
-        self.logger.info('Instagram spider closed.') 
+        self.logger.info('Instagram spider closed. Reason: %s', reason) 
 
     def _update_db_status(self):
         raise NotImplementedError()
