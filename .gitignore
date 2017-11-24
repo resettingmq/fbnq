@@ -107,3 +107,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# celery beat
+*.dat
+*.bak
+*.dir
