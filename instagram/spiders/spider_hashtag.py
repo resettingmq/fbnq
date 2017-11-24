@@ -96,5 +96,5 @@ class HashTagSpider(BaseInstagramSpider):
         self.redis.zadd(
             'latest_update',
             end_ts,
-            '.'.join((self.hashtag_name, 'hashtag'))
+            '.'.join((self.target, 'hashtag'))
         )

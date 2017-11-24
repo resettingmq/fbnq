@@ -137,5 +137,5 @@ class PublisherSpider(BaseInstagramSpider):
         self.redis.zadd(
             'latest_update',
             end_ts,
-            '.'.join((self.userid, 'publisher'))
+            '.'.join((self.target, 'publisher'))
         )
