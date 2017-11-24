@@ -19,6 +19,9 @@ RE_HASHTAG_CONTENT = re.compile(r'\s*#(\w+?)\b')
 GRAPHSIDECAR_TYPE = 'GraphSidecar'
 DOWNLOAD_MIN_WIDTH = 320
 
+REDIS_LATEST_UPDATE_KEY = 'latest_update'
+REDIS_UPDATING_KEY = 'updating'
+
 class BaseInstagramSpider(Spider):
     name = None
     start_url = 'https://www.instagram.com/{}/'
@@ -59,6 +62,15 @@ class BaseInstagramSpider(Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.coll = self.db[self.mongodb_coll_name]
+
+        self.redis.sadd(
+            REDIS_UPDATING_KEY,
+            '{}.{}'.format(self.target, self.target_type)
+        )
+        self.latest_update_ts = self.redis.zscore(
+            REDIS_LATEST_UPDATE_KEY,
+            '{}.{}'.format(self.target, self.target_type)
+        )
         
         self.latest_downloaded_ts = int(self.redis.hget(
             self.redis_key_latest_downloaded_ts,
@@ -388,10 +400,23 @@ class BaseInstagramSpider(Spider):
                 self.target,
                 self.earliest_downloaded_ts
             )
-        self._update_db_status()
+        self._update_db_status(reason)
+        self.redis.srem(
+            REDIS_UPDATING_KEY,
+            '.'.join((self.target, self.target_type))
+        )
         self.mongo_cli.close()
         self.logger.info('Scaped %s nodes.', self.scraped)
         self.logger.info('Instagram spider closed. Reason: %s', reason) 
 
     def _update_db_status(self):
         raise NotImplementedError()
+
+
+from instagram.spiders.spider_publisher import PublisherSpider
+from instagram.spiders.spider_hashtag import HashTagSpider
+
+spider_cls = {
+    'publisher': PublisherSpider,
+    'hashtag': HashTagSpider
+}

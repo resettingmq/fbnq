@@ -77,14 +77,16 @@ class HashTagSpider(BaseInstagramSpider):
             "first": self.settings.get('NODES_PER_QUERY')
         }
 
-    def _update_db_status(self):
+    def _update_db_status(self, reason):
         if self.hashtag_name is None:
             return
+
+        end_ts = int(time.time()) if reason == 'finished' else self.latest_update_ts
         self.coll.update(
             {"name": self.hashtag_name},
             {
                 "$set": {
-                    "end_ts": int(time.time()),
+                    "end_ts": end_ts,
                     "status": 1,
                     "latest_downloaded_ts": self.latest_downloaded_ts_new,
                     "earliest_downloaded_ts": self.earliest_downloaded_ts_new
@@ -93,6 +95,6 @@ class HashTagSpider(BaseInstagramSpider):
         )   
         self.redis.zadd(
             'latest_update',
-            int(time.time()),
+            end_ts,
             '.'.join((self.hashtag_name, 'hashtag'))
         )
