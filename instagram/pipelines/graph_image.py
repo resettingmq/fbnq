@@ -8,6 +8,8 @@ import time
 from scrapy.exporters import JsonLinesItemExporter
 from scrapy.exceptions import DropItem
 
+from celery import Celery
+
 from instagram.items import GraphImage
 
 logger = logging.getLogger(__name__)
@@ -27,6 +29,8 @@ class GraphImagePipeline(object):
             spider.settings.get('BASE_PATH'),
             spider.settings.get('DUMP_DATA_PATH')
         )
+        self.task = Celery()
+        self.task.config_from_object('task.config')
         # logger.debug('Switched to collection: %s', self.coll_name)
 
     def close_spider(self, spider):
@@ -84,6 +88,7 @@ class GraphImagePipeline(object):
                 exporter.finish_exporting()
                 logger.info('dumped item to file: %s', ret['upserted'])
                 logger.info('Inserted graph images: %s', ret['upserted'])
+                self.task.send_task('task.fetch_image', (item['_id'], ))
                 self.inserted += 1
         except:
             logger.error('DB FAILED: %s', traceback.format_exc())

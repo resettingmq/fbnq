@@ -77,7 +77,7 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 #    'instagram.pipelines.InstagramPipeline': 300,
 #}
 ITEM_PIPELINES = {
-    'instagram.pipelines.avatar_downloader.AvatarDownloaderPipeline': 200,
+    # 'instagram.pipelines.avatar_downloader.AvatarDownloaderPipeline': 200,
     'instagram.pipelines.PublisherPipeline': 201,
     'instagram.pipelines.HashTagPipeline': 210,
     'instagram.pipelines.proxied_image_downloader.ProxiedImagesPipeline': 220,
