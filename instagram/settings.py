@@ -120,6 +120,7 @@ REDIS_PORT = 6379
 REDIS_DB = 10
 
 LOG_LEVEL = 'INFO'
+LOG_ENABLED = False
 
 # Spider related
 QUERYID_EXPIRES_IN = 60 * 60 * 24 * 3

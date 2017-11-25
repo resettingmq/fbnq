@@ -2,7 +2,7 @@
 
 import pytz
 
-broker_url = 'redis://127.0.0.1:6379/11'
+broker_url = 'redis://ubuntu.vm:6379/11'
 
 timezone = pytz.timezone('Asia/Shanghai')
 
@@ -14,3 +14,5 @@ beat_schedule = {
         'schedule': 15
     }
 }
+
+worker_max_tasks_per_child = 1
