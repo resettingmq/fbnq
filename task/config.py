@@ -15,4 +15,13 @@ beat_schedule = {
     }
 }
 
+task_routes = {
+    'poll_instagram': {
+        'queue': 'poll_instagram'
+    },
+    'fetch_image': {
+        'queue': 'fetch_image'
+    },
+}
+
 worker_max_tasks_per_child = 1
