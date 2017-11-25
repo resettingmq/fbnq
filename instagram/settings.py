@@ -9,6 +9,10 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+import os
+
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 BOT_NAME = 'instagram'
 
 SPIDER_MODULES = ['instagram.spiders']
@@ -73,7 +77,8 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 #    'instagram.pipelines.InstagramPipeline': 300,
 #}
 ITEM_PIPELINES = {
-    'instagram.pipelines.PublisherPipeline': 200,
+    'instagram.pipelines.avatar_downloader.AvatarDownloaderPipeline': 200,
+    'instagram.pipelines.PublisherPipeline': 201,
     'instagram.pipelines.HashTagPipeline': 210,
     'instagram.pipelines.proxied_image_downloader.ProxiedImagesPipeline': 220,
     'instagram.pipelines.GraphImagePipeline': 221,
@@ -141,3 +146,7 @@ DETAIL_PAGE_URL = 'https://www.instagram.com/p/{}/?__a=1'
 IMAGES_URLS_FIELD = 'download_urls'
 IMAGES_RESULT_FIELD = 'downloaded_img_info'
 IMAGES_STORE = './images'
+
+AVATAR_URL_FIELD = 'profile_pic_url'
+AVATAR_RESULT_FIELD = 'downloaded_avatar_info'
+AVATAR_FOLDER = 'avatar'
