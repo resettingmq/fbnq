@@ -12,6 +12,9 @@ logging_config = {
         "poll_instagram": {
             "format": "[%(levelname).1s]%(asctime)s [%(name)s]: %(message)s"
         },
+        "fetch_image": {
+            "format": "[%(levelname).1s]%(asctime)s [%(name)s]: %(message)s"
+        },
     },
     "handlers": {
         "scrapy": {
@@ -41,6 +44,15 @@ logging_config = {
             "when": "midnight",
             "formatter": 'poll_instagram'
         },
+        "fetch_image": {
+            "level": "INFO",
+            "filters": None,
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "log/task/fetch_image.log",
+            "backupCount": 15,
+            "when": "midnight",
+            "formatter": 'fetch_image'
+        },
     },
     "loggers": {
         "": {
@@ -53,6 +65,10 @@ logging_config = {
         },
         "poll_instagram": {
             "handlers": ["poll_instagram"],
+            "propagate": True,
+        },
+        "fetch_image": {
+            "handlers": ["fetch_image"],
             "propagate": True,
         },
     }
