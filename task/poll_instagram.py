@@ -15,7 +15,7 @@ from twisted.internet import reactor
 
 # from instagram.spiders.spider_publisher import PublisherSpider
 from instagram.spiders import spider_cls
-from utils.logging import set_root_logger
+from utils.logger import set_root_logger
 
 from task import settings
 

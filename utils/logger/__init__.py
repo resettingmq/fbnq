@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from logging import config
 import os
 
-from utils.logging.config import logging_config
+from utils.logger.config import logging_config
 
 def set_root_logger(settings=None):
     if settings is None or not isinstance(settings, dict):
