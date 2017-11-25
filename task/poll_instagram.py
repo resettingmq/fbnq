@@ -3,6 +3,7 @@
 from celery import Celery
 from celery.signals import worker_ready, worker_shutdown
 from celery.utils.log import get_task_logger
+from celery.bin.amqp import amqp
 
 from pymongo import MongoClient
 import redis
@@ -95,6 +96,9 @@ def poll_instagram(self):
 @worker_ready.connect
 def init_worker(*args, **kwargs):
     logger.info('Initializing worker.')
+    amqp_cli = amqp(app=app)
+    amqp_cli.run('queue.purge', 'poll_instagram')
+    logger.info('Purged missing beat in queue poll_instagram')
 
 @worker_shutdown.connect
 def shutdown_worker(*args, **kwargs):
