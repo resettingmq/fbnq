@@ -80,15 +80,16 @@ class GraphImagePipeline(object):
                 self.existed += 1
             else:
                 filename = '{}.jl'.format(item["_id"])
-                flename = os.path.join(self.export_filepath, fielname)
-                file = open(filename, 'wb')
-                exportor = JsonLinesItemExporter(file)
+                filename = os.path.join(self.export_filepath, filename)
+                export_file = open(filename, 'wb')
+                exportor = JsonLinesItemExporter(export_file)
                 exportor.start_exporting()
                 exportor.export_item(item)
-                exporter.finish_exporting()
+                exportor.finish_exporting()
                 logger.info('dumped item to file: %s', ret['upserted'])
                 logger.info('Inserted graph images: %s', ret['upserted'])
                 self.task.send_task('task.fetch_image', (item['_id'], ))
+                logger.info('Send task fetch_image: %s', item['_id'])
                 self.inserted += 1
         except:
             logger.error('DB FAILED: %s', traceback.format_exc())
