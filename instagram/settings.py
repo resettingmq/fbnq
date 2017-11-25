@@ -150,3 +150,5 @@ IMAGES_STORE = './images'
 AVATAR_URL_FIELD = 'profile_pic_url'
 AVATAR_RESULT_FIELD = 'downloaded_avatar_info'
 AVATAR_FOLDER = 'avatar'
+
+DUMP_DATA_PATH = 'dump'

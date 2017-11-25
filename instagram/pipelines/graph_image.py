@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
 import logging
 import traceback
 import time
 
+from scrapy.exporters import JsonLinesItemExporter
 from scrapy.exceptions import DropItem
 
 from instagram.items import GraphImage
@@ -21,7 +23,11 @@ class GraphImagePipeline(object):
         self.inserted = 0
         self.latest_downloaded_ts = spider.latest_downloaded_ts
         self.earliest_downloaded_ts = spider.earliest_downloaded_ts
-        logger.debug('Switched to collection: %s', self.coll_name)
+        self.export_filepath = os.path.join(
+            spider.settings.get('BASE_PATH'),
+            spider.settings.get('DUMP_DATA_PATH')
+        )
+        # logger.debug('Switched to collection: %s', self.coll_name)
 
     def close_spider(self, spider):
         spider.latest_downloaded_ts_new = self.latest_downloaded_ts
@@ -69,6 +75,14 @@ class GraphImagePipeline(object):
                 logger.info('Updated graph images: %s', item["_id"])
                 self.existed += 1
             else:
+                filename = '{}.jl'.format(item["_id"])
+                flename = os.path.join(self.export_filepath, fielname)
+                file = open(filename, 'wb')
+                exportor = JsonLinesItemExporter(file)
+                exportor.start_exporting()
+                exportor.export_item(item)
+                exporter.finish_exporting()
+                logger.info('dumped item to file: %s', ret['upserted'])
                 logger.info('Inserted graph images: %s', ret['upserted'])
                 self.inserted += 1
         except:
