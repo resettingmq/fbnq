@@ -6,6 +6,9 @@ BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MONGODB_URI = 'mongodb://192.168.64.1:27017'
 MONGODB_DB = 'instagram'
+MONGODB_PUBLISHER_COLL_NAME = 'publisher'
+MONGODB_HASHTAG_COLL_NAME = 'hashtag'
+MONGODB_GRAPHIMAGE_COLL_NAME = 'graphimage'
 
 REDIS_HOST = 'ubuntu.vm'
 REDIS_PORT = 6379
