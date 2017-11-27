@@ -77,7 +77,7 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 #    'instagram.pipelines.InstagramPipeline': 300,
 #}
 ITEM_PIPELINES = {
-    # 'instagram.pipelines.avatar_downloader.AvatarDownloaderPipeline': 200,
+    'instagram.pipelines.avatar_downloader.AvatarDownloaderPipeline': 200,
     'instagram.pipelines.PublisherPipeline': 201,
     'instagram.pipelines.HashTagPipeline': 210,
     'instagram.pipelines.proxied_image_downloader.ProxiedImagesPipeline': 220,
@@ -151,4 +151,6 @@ AVATAR_URL_FIELD = 'profile_pic_url'
 AVATAR_RESULT_FIELD = 'downloaded_avatar_info'
 AVATAR_FOLDER = 'avatar'
 
-DUMP_DATA_PATH = 'dump'
+DUMP_DATA_PATH_ROOT = 'dump'
+DUMP_DATA_PATH_PUBLISHER = 'publisher'
+DUMP_DATA_PATH_GRAPHIMAGE = 'graphimage'

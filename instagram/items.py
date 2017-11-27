@@ -18,6 +18,7 @@ class Publisher(scrapy.Item):
     biography = scrapy.Field()
     external_url = scrapy.Field()
     published_count = scrapy.Field()
+    downloaded_avatar_info = scrapy.Field()
 
 
 class HashTag(scrapy.Item):

@@ -5,8 +5,6 @@ import time
 
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.http import Request
-from scrapy.utils.request import referer_str
-from twisted.internet import defer
 
 from instagram.items import GraphImage
 
@@ -50,6 +48,7 @@ class ProxiedImagesPipeline(ImagesPipeline):
 
     def media_downloaded(self, response, request, info):
         ret = super().media_downloaded(response, request, info)
+        ret.update(code=request.flags[0])
         try:
             cover = request.flags[1]
         except:
