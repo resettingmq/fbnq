@@ -45,10 +45,11 @@ def fetch_image(self, img_id):
     try:
         with urllib.request.urlopen(jl_ftp_path) as resp:
             img_info = json.load(TextIOWrapper(resp, 'utf-8'))
-        logger.info('Retrieved image info: %s', img_info)
+        logger.info('Retrieved graph image info for %s', img_id)
+        logger.debug('Retrieved graph image info: %s', img_info)
     except:
         logger.error(
-            'Retrieve image %s info data FAILED. EXIT. %s',
+            'Retrieve graph image %s info data FAILED. EXIT. %s',
             img_id,
             traceback.format_exc()
         )
@@ -67,10 +68,10 @@ def fetch_image(self, img_id):
         )
         try:
             urllib.request.urlretrieve(img_ftp_path, img_local_path)
-            logger.info('Saved image %s to %s', img, img_local_path)
+            logger.info('Saved graph image %s to %s', img['path'], img_local_path)
         except:
             logger.error(
-                'Retrieve image %s FAILED. EXIT. %s',
+                'Retrieve graph image %s FAILED. EXIT. %s',
                 img,
                 traceback.format_exc()
             )
