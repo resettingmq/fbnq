@@ -29,6 +29,12 @@ string update:<tagname.hashtag|publisherid.publisher>
 # query_id
 publisher和tag的query_id不同
 
+# avatar:publisher
+hash
+avatar remote filename to check if needs to be updated
+key: publisher name
+val: remote filename
+
 
 
 GraphSidecar
