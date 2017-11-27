@@ -92,7 +92,7 @@ class GraphImagePipeline(object):
                 exportor.finish_exporting()
                 logger.info('dumped item to file: %s', ret['upserted'])
                 logger.info('Inserted graph images: %s', ret['upserted'])
-                # self.task.send_task('fetch_image', (item['_id'], ))
+                self.task.send_task('fetch_image', (item['_id'], ))
                 logger.info('Send task fetch_image: %s', item['_id'])
                 self.inserted += 1
         except:
