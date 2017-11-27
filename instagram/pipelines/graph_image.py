@@ -27,8 +27,12 @@ class GraphImagePipeline(object):
         self.earliest_downloaded_ts = spider.earliest_downloaded_ts
         self.export_filepath = os.path.join(
             spider.settings.get('BASE_PATH'),
-            spider.settings.get('DUMP_DATA_PATH')
+            spider.settings.get('DUMP_DATA_PATH_ROOT'),
+            spider.settings.get('DUMP_DATA_PATH_GRAPHIMAGE'),
         )
+        if not os.path.exists(self.export_filepath):
+            os.makedirs(self.export_filepath)
+
         self.task = Celery()
         self.task.config_from_object('task.config')
         # logger.debug('Switched to collection: %s', self.coll_name)
@@ -88,7 +92,7 @@ class GraphImagePipeline(object):
                 exportor.finish_exporting()
                 logger.info('dumped item to file: %s', ret['upserted'])
                 logger.info('Inserted graph images: %s', ret['upserted'])
-                self.task.send_task('fetch_image', (item['_id'], ))
+                # self.task.send_task('fetch_image', (item['_id'], ))
                 logger.info('Send task fetch_image: %s', item['_id'])
                 self.inserted += 1
         except:

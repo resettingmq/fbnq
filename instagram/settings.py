@@ -153,3 +153,4 @@ AVATAR_FOLDER = 'avatar'
 
 DUMP_DATA_PATH_ROOT = 'dump'
 DUMP_DATA_PATH_PUBLISHER = 'publisher'
+DUMP_DATA_PATH_GRAPHIMAGE = 'graphimage'
