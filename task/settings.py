@@ -28,5 +28,5 @@ FTP_ROOT_URI = 'ftp://{}:{}@{}:{}'.format(
 DUMP_DATA_PATH_ROOT = 'dump'
 DUMP_DATA_PATH_PUBLISHER = 'publisher'
 DUMP_DATA_PATH_GRAPHIMAGE = 'graphimage'
-IMAGE_PATH = 'images/full'
+IMAGE_PATH_ROOT = 'images'
 IMAGES_RESULT_FIELD = 'downloaded_img_info'
