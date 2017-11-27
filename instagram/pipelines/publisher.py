@@ -7,6 +7,7 @@
 
 import logging
 import time
+import traceback
 
 from scrapy.exceptions import DropItem
 
@@ -26,30 +27,38 @@ class PublisherPipeline(object):
     def process_item(self, item, spider):
         if not isinstance(item, Publisher):
             return item
-        
         ts = int(time.time())
-        self.coll.update(
-            {"_id": item["_id"]},
-            {
-                "$setOnInsert": {
-                    "_id": item["_id"],
-                    "username": item["username"],
-                    "first_scraped_ts": ts,
+        try:
+            ret = self.coll.update(
+                {"_id": item["_id"]},
+                {
+                    "$setOnInsert": {
+                        "_id": item["_id"],
+                        "username": item["username"],
+                        "first_scraped_ts": ts,
+                    },
+                    "$set": {
+                        "full_name": item["full_name"],
+                        "profile_pic_url": item["profile_pic_url"],
+                        "profile_pic_url_hd": item["profile_pic_url_hd"],
+                        "followed_by": item["followed_by"],
+                        "biography": item["biography"],
+                        "external_url": item["external_url"],
+                        "published_count": item["published_count"],
+                        "downloaded_avatar_info": item.get("downloaded_avatar_info"),
+                        "update_ts": ts,
+                        "begin_ts": ts,
+                        "status": -1
+                    }
                 },
-                "$set": {
-                    "full_name": item["full_name"],
-                    "profile_pic_url": item["profile_pic_url"],
-                    "profile_pic_url_hd": item["profile_pic_url_hd"],
-                    "followed_by": item["followed_by"],
-                    "biography": item["biography"],
-                    "external_url": item["external_url"],
-                    "published_count": item["published_count"],
-                    "update_ts": ts,
-                    "begin_ts": ts,
-                    "status": -1
-                }
-            },
-            upsert=True
-        )
-        # raise DropItem('Finished processing publisher item: %s', item["_id"]) 
-        return item
+                upsert=True
+            )
+            if ret['updatedExisting']:
+                logger.info('Updated publisher: %s', item["username"])
+            else:
+                logger.info('Inserted publisher: %s', item["username"])
+        except:
+            logger.error('DB FAILED: %s', traceback.format_exc())
+            raise DropItem('Save graph image to db FAILED. DROP ITEM %s' % item["_id"])
+        else:
+            return item
