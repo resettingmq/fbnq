@@ -13,6 +13,8 @@ import traceback
 from scrapy.exporters import JsonLinesItemExporter
 from scrapy.exceptions import DropItem
 
+from celery import Celery
+
 from instagram.items import Publisher
 
 logger = logging.getLogger(__name__)
@@ -40,6 +42,9 @@ class PublisherPipeline(object):
         )
         if not os.path.exists(self.export_filepath):
             os.makedirs(self.export_filepath)
+
+        self.task = Celery()
+        self.task.config_from_object('task.config')
         # logger.debug('Switched to collection: %s', self.coll_name)
 
     def process_item(self, item, spider):
@@ -86,7 +91,8 @@ class PublisherPipeline(object):
                 exportor.export_item(item)
                 exportor.finish_exporting()
                 logger.info('dumped item to file: %s', item["username"])
-                logger.info('Send task upsert_publisher: %s', item["username"])
+                self.task.send_task('sync_publisher', (item["username"], ))
+                logger.info('Send task sync_publisher: %s', item["username"])
             else:
                 logger.info(
                     'Publisher %s is not updated. No dumping data or sending task',
