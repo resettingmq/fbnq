@@ -19,6 +19,9 @@ task_routes = {
     'poll_instagram': {
         'queue': 'poll_instagram'
     },
+    'sync_publisher': {
+        'queue': 'sync_publisher'
+    },
     'fetch_image': {
         'queue': 'fetch_image'
     },
