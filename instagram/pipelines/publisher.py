@@ -123,7 +123,7 @@ class PublisherPipeline(object):
         if updated:
             return True
         avatar_info = item.get("downloaded_avatar_info")
-        if avatar_info is not None and avatar_info['updated']:
+        if avatar_info is not None and avatar_info[0]['updated']:
             return True
         return False
 
