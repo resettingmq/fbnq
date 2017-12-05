@@ -364,6 +364,8 @@ class BaseInstagramSpider(Spider):
         for r in sorted_resources:
             if r['config_width'] >= DOWNLOAD_MIN_WIDTH:
                 return r['src']
+        if len(sorted_resources) > 0:
+            return sorted_resources[-1]['src']
 
 
     def closed(self, reason):
