@@ -319,11 +319,12 @@ class BaseInstagramSpider(Spider):
                         for hashtag in hashtags_matched:
                             hashtag_loader = HashTagLoader()
                             hashtag_loader.add_value('name', hashtag)
+                            hashtag_loader.add_value('explored', True)
                             yield hashtag_loader.load_item()
 
                         loader.add_value('hashtags', hashtags_matched)
                 except:
-                    self.logger.info('No caption for node: %s', node['shortcode'])
+                    self.logger.info('No caption for node: %s', code)
             except:
                 self.logger.error(
                     'Missing profile info. NOT UPDATED! Node: %s, Error: %s',
@@ -363,6 +364,8 @@ class BaseInstagramSpider(Spider):
         for r in sorted_resources:
             if r['config_width'] >= DOWNLOAD_MIN_WIDTH:
                 return r['src']
+        if len(sorted_resources) > 0:
+            return sorted_resources[-1]['src']
 
 
     def closed(self, reason):

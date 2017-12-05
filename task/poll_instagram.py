@@ -44,6 +44,7 @@ def poll_instagram(self):
         0,
         -1
     )
+    logger.info('Retrieved latest update info: %s', latest_update)
     target_info = None  
     with redis_cli.pipeline() as pipe:
         for t in latest_update:

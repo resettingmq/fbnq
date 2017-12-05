@@ -92,9 +92,12 @@ class HashTagSpider(BaseInstagramSpider):
                     "earliest_downloaded_ts": self.earliest_downloaded_ts_new
                 }
             }
-        )   
-        self.redis.zadd(
-            'latest_update',
-            end_ts,
-            '.'.join((self.target, 'hashtag'))
         )
+
+        # todo: add lock
+        if self.redis.zscore('latest_update', self.target_info) is not None:
+            self.redis.zadd(
+                'latest_update',
+                end_ts,
+                self.target_info
+            )

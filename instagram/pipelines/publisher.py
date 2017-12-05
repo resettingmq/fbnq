@@ -15,6 +15,8 @@ from scrapy.exceptions import DropItem
 
 from celery import Celery
 
+from redis.exceptions import RedisError
+
 from instagram.items import Publisher
 
 logger = logging.getLogger(__name__)
@@ -98,6 +100,9 @@ class PublisherPipeline(object):
                     'Publisher %s is not updated. No dumping data or sending task',
                     item["username"]
                 )
+        except RedisError:
+            logger.error('Send task Failed. Network unreachable')
+            raise DropItem('Send sync_publisher task FAILED. DROP ITEM %s' % item["username"])
         except:
             logger.error('DB FAILED: %s', traceback.format_exc())
             raise DropItem('Save publisher to db FAILED. DROP ITEM %s' % item["_id"])
