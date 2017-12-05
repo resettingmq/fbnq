@@ -10,6 +10,8 @@ from scrapy.exceptions import DropItem
 
 from celery import Celery
 
+from redis.exceptions import RedisError
+
 from instagram.items import GraphImage
 
 logger = logging.getLogger(__name__)
@@ -95,6 +97,9 @@ class GraphImagePipeline(object):
                 self.task.send_task('fetch_image', (item['_id'], ))
                 logger.info('Send task fetch_image: %s', item['_id'])
                 self.inserted += 1
+        except RedisError:
+            logger.error('Send task Failed. Network unreachable')
+            raise DropItem('Send fetch_image task FAILED. DROP ITEM %s' % item["_id"])
         except:
             logger.error('DB FAILED: %s', traceback.format_exc())
             raise DropItem('Save graph image to db FAILED. DROP ITEM %s' % item["_id"])
