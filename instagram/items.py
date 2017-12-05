@@ -25,7 +25,7 @@ class HashTag(scrapy.Item):
     name = scrapy.Field()
     published_count = scrapy.Field()
     top_posts = scrapy.Field()
-    expolred = scrapy.Field()
+    explored = scrapy.Field()
 
 
 class GraphImage(scrapy.Item):
