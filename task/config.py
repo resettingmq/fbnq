@@ -22,6 +22,9 @@ task_routes = {
     'sync_publisher': {
         'queue': 'sync_publisher'
     },
+    'sync_hashtag': {
+        'queue': 'sync_hashtag'
+    },
     'fetch_image': {
         'queue': 'fetch_image'
     },
