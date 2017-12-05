@@ -324,7 +324,7 @@ class BaseInstagramSpider(Spider):
 
                         loader.add_value('hashtags', hashtags_matched)
                 except:
-                    self.logger.info('No caption for node: %s', node['shortcode'])
+                    self.logger.info('No caption for node: %s', code)
             except:
                 self.logger.error(
                     'Missing profile info. NOT UPDATED! Node: %s, Error: %s',
