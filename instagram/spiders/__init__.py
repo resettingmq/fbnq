@@ -319,6 +319,7 @@ class BaseInstagramSpider(Spider):
                         for hashtag in hashtags_matched:
                             hashtag_loader = HashTagLoader()
                             hashtag_loader.add_value('name', hashtag)
+                            hashtag_loader.add_value('explored', True)
                             yield hashtag_loader.load_item()
 
                         loader.add_value('hashtags', hashtags_matched)
