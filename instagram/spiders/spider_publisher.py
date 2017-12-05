@@ -134,8 +134,10 @@ class PublisherSpider(BaseInstagramSpider):
                 }
             }
         )
-        self.redis.zadd(
-            'latest_update',
-            end_ts,
-            '.'.join((self.target, 'publisher'))
-        )
+
+        if self.redis.zscore('latest_update', self.target_info) is not None:
+            self.redis.zadd(
+                'latest_update',
+                end_ts,
+                self.target_info
+            )
