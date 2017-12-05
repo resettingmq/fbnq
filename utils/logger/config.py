@@ -15,6 +15,9 @@ logging_config = {
         "sync_publisher": {
             "format": "[%(levelname).1s]%(asctime)s [%(name)s]: %(message)s"
         },
+        "sync_hashtag": {
+            "format": "[%(levelname).1s]%(asctime)s [%(name)s]: %(message)s"
+        },
         "fetch_image": {
             "format": "[%(levelname).1s]%(asctime)s [%(name)s]: %(message)s"
         },
@@ -56,6 +59,15 @@ logging_config = {
             "when": "midnight",
             "formatter": 'sync_publisher'
         },
+        "sync_hashtag": {
+            "level": "INFO",
+            "filters": None,
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "log/task/sync_hashtag.log",
+            "backupCount": 15,
+            "when": "midnight",
+            "formatter": 'sync_hashtag'
+        },
         "fetch_image": {
             "level": "INFO",
             "filters": None,
@@ -81,6 +93,10 @@ logging_config = {
         },
         "sync_publisher": {
             "handlers": ["sync_publisher"],
+            "propagate": True,
+        },
+        "sync_hashtag": {
+            "handlers": ["sync_hashtag"],
             "propagate": True,
         },
         "fetch_image": {
