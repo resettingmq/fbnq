@@ -22,12 +22,6 @@ app.config_from_object('task.config')
 set_root_logger()
 logger = get_task_logger('fetch_image')
 
-redis_pool = redis.ConnectionPool(
-    host=settings.REDIS_HOST,
-    port=settings.REDIS_PORT,
-    db=settings.REDIS_DB
-)
-
 mongodb_cli = MongoClient(settings.MONGODB_URI)
 mongodb_db = mongodb_cli[settings.MONGODB_DB]
 mongodb_coll = mongodb_db[settings.MONGODB_GRAPHIMAGE_COLL_NAME]
