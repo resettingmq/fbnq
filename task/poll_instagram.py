@@ -32,7 +32,8 @@ logger = get_task_logger('poll_instagram')
 redis_pool = redis.ConnectionPool(
     host=settings.REDIS_HOST,
     port=settings.REDIS_PORT,
-    db=settings.REDIS_DB
+    db=settings.REDIS_DB,
+    password=settings.REDIS_PASSWORD,
 )
 
 @app.task(name='poll_instagram', bind=True)
