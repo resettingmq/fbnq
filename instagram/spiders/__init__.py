@@ -40,7 +40,8 @@ class BaseInstagramSpider(Spider):
         pool = redis.ConnectionPool(
             host=settings.get('REDIS_HOST'),
             port=settings.get('REDIS_PORT'),
-            db=settings.get('REDIS_DB')
+            db=settings.get('REDIS_DB'),
+            password=settings.get('REDIS_PASSWORD')
         )
         meta = settings.get('REQUEST_META')
         spider = super().from_crawler(
