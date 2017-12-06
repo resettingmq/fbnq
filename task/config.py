@@ -6,7 +6,7 @@ broker_url = 'redis://ubuntu.vm:6379/11'
 
 timezone = pytz.timezone('Asia/Shanghai')
 
-imports = ['task.poll_instagram']
+# imports = ['task.poll_instagram']
 
 beat_schedule = {
     'poll_instagram': {
